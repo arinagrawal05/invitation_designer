@@ -1,7 +1,9 @@
 import 'package:card_render/card_model.dart';
 import 'package:card_render/detailpage.dart';
+import 'package:card_render/google_sign.dart';
 import 'package:card_render/text_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'consts.dart';
@@ -14,44 +16,63 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  User? myuser;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-            label: const Text("Add Card"),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DetailPage(
-                          model: null,
-                        )),
+    AuthMethods.getCurrentUser().then((value) {
+      setState(() {
+        myuser = value;
+      });
+    });
+
+    // User user = AuthMethods().getCurrentUser();
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+          label: Text("Add Card${myuser!.uid}"),
+          onPressed: () {
+            print(myuser!.uid);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const DetailPage(
+                        model: null,
+                      )),
+            );
+          }),
+      body: SafeArea(
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Cards')
+              .where("userid", isEqualTo: myuser!.uid)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            // if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return const CircularProgressIndicator();
+            // } else
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  // var document = snapshot.data!.docs[index];
+                  return showcanvasBoard(context,
+                      CardModel.fromFirestore(snapshot.data!.docs[index]));
+                  // MyCardWidget(
+                  //   model: CardModel.fromFirestore(snapshot.data!.docs[index]),
+                  // );
+                },
               );
-            }),
-        body: SafeArea(
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('Cards').snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    // var document = snapshot.data!.docs[index];
-                    return showcanvasBoard(context,
-                        CardModel.fromFirestore(snapshot.data!.docs[index]));
-                    // MyCardWidget(
-                    //   model: CardModel.fromFirestore(snapshot.data!.docs[index]),
-                    // );
-                  },
-                );
-              }
-            },
-          ),
+            }
+          },
         ),
       ),
     );

@@ -6,6 +6,7 @@ class TextProperties {
   final String color;
   final String fontfamily;
   Offset position;
+  bool isSelected;
 
   TextProperties({
     required this.text,
@@ -13,6 +14,7 @@ class TextProperties {
     required this.color,
     required this.fontfamily,
     required this.position,
+    required this.isSelected,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,7 +27,12 @@ class TextProperties {
         'dx': position.dx,
         'dy': position.dy,
       },
+      'isSelected': isSelected,
     };
+  }
+
+  void resetSelection() {
+    isSelected = false;
   }
 
   factory TextProperties.fromJson(Map<String, dynamic> json) {
@@ -34,6 +41,7 @@ class TextProperties {
       fontSize: json['fontSize'] ?? 8,
       color: json['color'] ?? "FFFFFF",
       fontfamily: json['fontfamily'] ?? "Roboto",
+      isSelected: json['isSelected'] ?? false,
       position: Offset(
         json['position']['dx'] ?? 0.0,
         json['position']['dy'] ?? 0.0,

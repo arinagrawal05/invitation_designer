@@ -38,8 +38,15 @@ dependencies:
   firebase_core:
   cloud_firestore: ^4.8.0
   uuid:
+  dotted_border:
+  firebase_auth:
   google_fonts:
+  google_sign_in:
   flutter_colorpicker: 
+  screenshot:
+  path_provider:
+  share:
+  image_gallery_saver:
 
 
  
@@ -67,9 +74,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/google_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:card_render/text_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -75,12 +76,12 @@ List<TextProperties> convertDynamicListToTextPropertiesList(
           item['position']['dy'] is double ? item['position']['dy'] : 0.0;
 
       textPropertiesList.add(TextProperties(
-        text: text,
-        fontSize: fontSize,
-        color: fontcolor,
-        fontfamily: fontfamily,
-        position: Offset(dx, dy),
-      ));
+          text: text,
+          fontSize: fontSize,
+          color: fontcolor,
+          fontfamily: fontfamily,
+          position: Offset(dx, dy),
+          isSelected: false));
     } else {
       // Handle invalid data structure in dynamicList
     }
@@ -104,12 +105,12 @@ TextProperties convertJsonToTextProperties(Map<String, dynamic> json) {
       : 0.0;
 
   return TextProperties(
-    text: text,
-    fontSize: fontSize,
-    color: color,
-    fontfamily: fontfamily,
-    position: Offset(dx, dy),
-  );
+      text: text,
+      fontSize: fontSize,
+      color: color,
+      fontfamily: fontfamily,
+      position: Offset(dx, dy),
+      isSelected: false);
 }
 
 List<dynamic> dynamicList = [
@@ -215,7 +216,7 @@ Future<Tuple2<String, String>> textFormatDialog(
                 children: [
                   TextField(
                     controller: controller,
-                    decoration: const InputDecoration(labelText: 'Enter Text'),
+                    decoration: InputDecoration(labelText: 'Enter Text'),
                   ),
                   const SizedBox(
                     height: 20,
@@ -225,7 +226,7 @@ Future<Tuple2<String, String>> textFormatDialog(
                       Expanded(
                         child: Slider(
                             value: selectedFontSize,
-                            min: 14,
+                            min: 10,
                             max: 74,
                             activeColor: Colors.black,
                             inactiveColor: Colors.black.withOpacity(0.4),
