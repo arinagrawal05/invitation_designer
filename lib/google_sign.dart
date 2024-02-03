@@ -74,7 +74,11 @@ class AuthMethods {
       // );
 
       // ignore: use_build_context_synchronously
-      AppUtils.navigatedirect(const Homepage(), context);
+      AppUtils.navigatedirect(
+          Homepage(
+            user: userDetails,
+          ),
+          context);
     } else {
       print("its disgusting not happening");
     }

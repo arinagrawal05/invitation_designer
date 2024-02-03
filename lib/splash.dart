@@ -31,9 +31,10 @@ class _SplashscreenState extends State<Splashscreen> {
     Timer(const Duration(seconds: 2), () {
       if (user != null) {
         AppUtils.navigatedirect(
-          Homepage(),
+          Homepage(user: user),
           context,
         );
+        print(user.displayName);
       } else {
         AppUtils.navigatedirect(
           const BoardingScreen(),

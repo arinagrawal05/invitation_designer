@@ -38,31 +38,10 @@ class _BoardingScreenState extends State<BoardingScreen> {
                     const SizedBox(
                       height: 150,
                     ),
-                    // appNameWidget(),
-
-                    // Center(
-                    //   child: Container(
-                    //     width: MediaQuery.of(context).size.width * 0.6,
-                    //     height: 150,
-                    //     child: Image.network(
-                    //       // ThemeProvider.currenttheme();
-                    //       // theme == "dark"
-                    //       // ?
-                    //       current == ThemeMode.dark
-                    //           ? "https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png"
-                    //           : // :
-                    //           // dark theme
-                    //           "https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png",
-                    //       // light theme
-
-                    //       // width: 150,
-                    //     ),
-                    //   ),
-                    // ),
                     Center(
                       child: Text(
-                        "Notes App",
-                        // style: GoogleFonts.montserrat(fin),
+                        "Create Your Invitation Today",
+                        style: GoogleFonts.montserrat(fontSize: 22),
                       ),
                     ),
                     SizedBox(

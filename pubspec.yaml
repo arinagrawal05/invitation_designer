@@ -47,7 +47,8 @@ dependencies:
   path_provider:
   share:
   image_gallery_saver:
-
+  ionicons: 
+ 
 
  
 

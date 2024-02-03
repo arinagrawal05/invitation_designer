@@ -32,23 +32,6 @@ class AppUtils {
           "userHashCode": userDetails.hashCode ?? "",
           "timestamp": DateTime.now(),
         });
-        String v1 = Random().nextInt(1000000000).toString();
-
-        FirebaseFirestore.instance
-            .collection("Users")
-            .doc(userDetails.uid)
-            .collection("Notes")
-            .doc(v1)
-            .set({
-          'title': "This is Sample Title",
-          'content': "You can write your sample content here",
-          "isPinned": true,
-          'background_id': 2,
-          'label_list': [],
-          'isArchived': false,
-          "note_docId": v1,
-          'timestamp': Timestamp.now(),
-        });
       } else {
         print("this is existing user");
       }
@@ -78,7 +61,8 @@ class AppUtils {
   }
 
   static Future<void> shareImagee(String imagePath) async {
-    await Share.shareFiles([imagePath], text: 'Check out this image!');
+    await Share.shareFiles([imagePath],
+        text: 'Here is my Invitation Card made By my Invitation Maker');
   }
 
   static Future<void> saveImageToGallery(Uint8List imageBytes) async {

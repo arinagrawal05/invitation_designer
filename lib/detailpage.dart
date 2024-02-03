@@ -17,9 +17,15 @@ import 'consts.dart';
 // import 'homepage.dart';
 
 class DetailPage extends StatefulWidget {
+  final double aspectRatio;
+  final String userid;
   final CardModel? model;
 
-  const DetailPage({super.key, required this.model});
+  const DetailPage(
+      {super.key,
+      required this.model,
+      required this.aspectRatio,
+      required this.userid});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -105,6 +111,9 @@ class _DetailPageState extends State<DetailPage> {
                           .collection("Cards")
                           .doc(id)
                           .set({
+                        "card_ratio": widget.aspectRatio,
+                        "userid": widget.userid,
+                        "bg_color": "FFFFFF",
                         "card_id": id,
                         "image_url": backgroundUrl,
                         "text_json_list": stringList,
@@ -112,8 +121,8 @@ class _DetailPageState extends State<DetailPage> {
                         Navigator.pop(context);
                       }).catchError((error) {});
                     }
-                    Navigator.of(context)
-                        .pop(true); // Dismiss the dialog and exit
+                    Navigator.of(context).pop(true);
+                    Navigator.pop(context);
                   },
                   child: Text("Save"),
                 ),
@@ -170,6 +179,9 @@ class _DetailPageState extends State<DetailPage> {
                   } else {
                     var id = const Uuid().v4();
                     FirebaseFirestore.instance.collection("Cards").doc(id).set({
+                      "card_ratio": widget.aspectRatio,
+                      "userid": widget.userid,
+                      "bg_color": "FFFFFF",
                       "card_id": id,
                       "image_url": backgroundUrl,
                       "text_json_list": stringList,
@@ -358,79 +370,82 @@ class _DetailPageState extends State<DetailPage> {
         //           image: NetworkImage(backgroundUrl), fit: BoxFit.cover),
         //   color: Colors.grey.shade300,
         // ),
-        child: Stack(
-          children: [
-            // if (showGuidedLines) ...[
-            //   // Horizontal guided line
-            //   Positioned(
-            //     left: 0,
-            //     top: guidedLinesPosition.dy,
-            //     right: 0,
-            //     height: 1,
-            //     child: Container(
-            //       color: Colors.blue,
-            //     ),
-            //   ),
+        child: AspectRatio(
+          aspectRatio: widget.aspectRatio,
+          child: Stack(
+            children: [
+              // if (showGuidedLines) ...[
+              //   // Horizontal guided line
+              //   Positioned(
+              //     left: 0,
+              //     top: guidedLinesPosition.dy,
+              //     right: 0,
+              //     height: 1,
+              //     child: Container(
+              //       color: Colors.blue,
+              //     ),
+              //   ),
 
-            //   // Vertical guided line
-            //   Positioned(
-            //     top: 0,
-            //     left: guidedLinesPosition.dx,
-            //     bottom: 0,
-            //     width: 1,
-            //     child: Container(
-            //       color: Colors.blue,
-            //     ),
-            //   ),
-            // ],
+              //   // Vertical guided line
+              //   Positioned(
+              //     top: 0,
+              //     left: guidedLinesPosition.dx,
+              //     bottom: 0,
+              //     width: 1,
+              //     child: Container(
+              //       color: Colors.blue,
+              //     ),
+              //   ),
+              // ],
 
-            Screenshot(
-              controller: screenshotController,
-              child: Container(
-                margin: canvasMargin,
-                height: canvasHeight,
-                width: canvasWidth,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image:
-                      //  imageBytes != null
-                      //     ?
-                      DecorationImage(
-                          image: NetworkImage(backgroundUrl),
-                          fit: BoxFit.cover),
-                  color: Colors.grey.shade300,
+              Screenshot(
+                controller: screenshotController,
+                child: Container(
+                  margin: canvasMargin,
+                  // height: canvasHeight,
+                  width: canvasWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image:
+                        //  imageBytes != null
+                        //     ?
+                        DecorationImage(
+                            image: NetworkImage(backgroundUrl),
+                            fit: BoxFit.cover),
+                    color: Colors.grey.shade300,
+                  ),
+                  child: Stack(
+                    children: [
+                      ...stackData.map(buildItemWidget).toList(),
+                    ],
+                  ),
                 ),
-                child: Stack(
+              ),
+              Positioned(
+                top: 40,
+                left: 40,
+                child: Row(
                   children: [
-                    ...stackData.map(buildItemWidget).toList(),
+                    GestureDetector(
+                      onTap: () {
+                        undo();
+                      },
+                      child: const Icon(Icons.undo),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        redo();
+                      },
+                      child: const Icon(Icons.redo),
+                    ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              top: 40,
-              left: 40,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      undo();
-                    },
-                    child: const Icon(Icons.undo),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      redo();
-                    },
-                    child: const Icon(Icons.redo),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

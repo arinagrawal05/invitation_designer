@@ -12,6 +12,8 @@ String backgroundUrl =
     "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjEwNjQtMzYta3ZjNHNieHcuanBn.jpg";
 EdgeInsets canvasMargin =
     const EdgeInsets.symmetric(vertical: 30, horizontal: 20);
+EdgeInsets homecanvasMargin =
+    const EdgeInsets.symmetric(vertical: 10, horizontal: 5);
 double canvasHeight = 300;
 double canvasWidth = double.infinity;
 
